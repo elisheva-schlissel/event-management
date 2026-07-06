@@ -1,0 +1,18 @@
+# מרים SQL Server בקונטיינר — חלופה ניידת ל-LocalDB (עובד על Windows/Mac/Linux).
+# הרצה:  docker-compose up -d
+# אחר כך עדכן את ConnectionStrings:SqlServer ב-Server.Api להשתמש ב-sa/הסיסמה מטה,
+# או השאר את LocalDB כברירת המחדל (ראה README).
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: fem-sqlserver
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "YourStrong@Passw0rd"
+    ports:
+      - "1433:1433"
+    volumes:
+      - fem-mssql-data:/var/opt/mssql
+
+volumes:
+  fem-mssql-data:

@@ -1,0 +1,24 @@
+# .NET
+bin/
+obj/
+*.user
+
+# Agent local outbox (SQLite)
+*.db
+*.db-shm
+*.db-wal
+
+# Angular / Node
+client/node_modules/
+client/dist/
+client/.angular/
+
+# IDE
+.vs/
+.idea/
+
+# Secrets (production) — keep dev values only in appsettings.Development.json
+appsettings.Production.json
+
+# Personal exam-prep notes — not part of the deliverable
+docs/study-guide.md
