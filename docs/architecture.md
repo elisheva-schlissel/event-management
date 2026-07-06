@@ -59,6 +59,16 @@ flowchart LR
 
 **חשיפה לעולם:** endpoint HTTP יחיד `POST /ingest`. כל מקור שולח POST עם כותרות אימות. חיבור מקור חדש = רישום שם+מפתח, ללא שינוי קוד.
 
+**צורת מימוש ה-Agent — חלופות שנשקלו (לפי דרישת האפיון):**
+
+| חלופה | יתרונות | חסרונות | הכרעה |
+|---|---|---|---|
+| **.NET Generic Host יחיד** — Minimal-API webhook + `BackgroundService` (Outbox sender) בתהליך אחד | פשטות תפעול (תהליך אחד רציף); webhook HTTP שכל מקור הטרוגני מדבר בקלות; Outbox עמיד בין הרצות; ללא תלות ענן | דורש אירוח (שירות/קונטיינר) שרץ תמידית | **נבחר** |
+| Serverless — Function-per-trigger (Azure Functions / Lambda) | scale-to-zero, אין שרת לתחזק | cold-start פוגע ב-latency; Outbox עמיד בין הרצות קצרות-חיים מורכב; תלות ספק ענן | נדחתה |
+| Consumer של Message Broker — Agent שצורך מתור (RabbitMQ/Kafka) שהמקורות דוחפים אליו | ניתוק (decoupling) ו-buffering מובנה | רכיב תפעולי כבד שלא מוצדק לנפח קטן; המקורות (חיישנים/דיווח ידני) מדברים HTTP טבעי, לא AMQP | נדחתה |
+
+**נימוק:** תהליך רציף יחיד שמאחד קליטה (webhook) ושידור אמין (BackgroundService+Outbox) נותן את שלושת ה-yardsticks שהאפיון מבקש — **הרחבה** (מקור חדש = config בלבד), **אמינות** (Outbox + retry), ו**תחזוקה** (בסיס קוד אחד, ללא תשתית ענן/תור). התקשורת עם השרת (REST) מנומקת בנפרד ב-§10.
+
 **אימות מקור:** `X-Api-Key` (מזהה) + `X-Signature` (HMAC-SHA256 על `timestamp.body`) + `X-Timestamp` (חלון 5 דקות נגד replay).
 
 **אמינות (Outbox):**
@@ -120,7 +130,7 @@ erDiagram
 | | משתמש מחובר (דפדפן פתוח) | משתמש לא מחובר (דפדפן סגור) |
 |---|---|---|
 | ערוץ | **SignalR** (WebSocket) | **Web Push** (VAPID) דרך Service Worker — *stub* |
-| מקור אמת ל"מצב" | נוכחות חיבור SignalR (`ConnectionPresence`) | נגזר: אין חיבור פעיל → נשלח push |
+| מקור אמת ל"מצב" | נוכחות חיבור SignalR (שדה `User.IsConnected` ב-DB) | נגזר: אין חיבור פעיל → נשלח push |
 
 - **איך השרת יודע את המצב:** ה-Hub מעדכן נוכחות ב-`OnConnected/OnDisconnected`.
 - **שמירת Subscription:** הלקוח נרשם ל-Push ושולח endpoint+keys לשרת → `PushSubscriptions`.
@@ -137,7 +147,7 @@ erDiagram
 | Agent → שרת | מפתח פנימי `X-Agent-Key` |
 | כל הערוצים | TLS/HTTPS (WSS ל-SignalR); dev-cert בפיתוח |
 
-**למה אימות המקור שונה מאימות המשתמש:** משתמש = בן אדם עם login וסשן קצר (JWG). מקור = מכונה ללא login, עם סוד קבוע שחותם על כל בקשה. שני מודלים שונים לשתי בעיות שונות.
+**למה אימות המקור שונה מאימות המשתמש:** משתמש = בן אדם עם login וסשן קצר (JWT). מקור = מכונה ללא login, עם סוד קבוע שחותם על כל בקשה. שני מודלים שונים לשתי בעיות שונות.
 
 ---
 
