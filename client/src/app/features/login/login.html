@@ -1,0 +1,24 @@
+<div class="login-wrap" dir="rtl">
+  <form class="card" (ngSubmit)="submit()">
+    <h1>ניהול אירועי שטח</h1>
+    <p class="sub">התחברות למערכת</p>
+
+    <label>שם משתמש</label>
+    <input name="username" [(ngModel)]="username" autocomplete="username" />
+
+    <label>סיסמה</label>
+    <input name="password" type="password" [(ngModel)]="password" autocomplete="current-password" />
+
+    @if (error()) {
+      <div class="err">{{ error() }}</div>
+    }
+
+    <button type="submit" [disabled]="busy()">
+      {{ busy() ? 'מתחבר…' : 'התחבר' }}
+    </button>
+
+    <div class="hint">
+      דמו: <code>dispatcher</code> / <code>tech1</code> — סיסמה <code>Passw0rd!</code>
+    </div>
+  </form>
+</div>

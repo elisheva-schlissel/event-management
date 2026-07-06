@@ -1,0 +1,18 @@
+<div class="page" dir="rtl">
+  <header>
+    <h1>מסך טכנאי — {{ name() }}</h1>
+    <button (click)="logout()">התנתק</button>
+  </header>
+
+  <div class="skeleton-note">
+    <strong>Skeleton</strong> — מסך הטכנאי מוגדר במבנה בלבד (§11 בתוכנית).
+    הפעולות הבאות ימומשו בהמשך:
+    <ul>
+      <li>רשימת האירועים המוקצים לי (סינון בשרת לפי המשתמש)</li>
+      <li>עדכון סטטוס אירוע (מעבר מוגן ב-State Machine)</li>
+      <li>בקשה לקבל אירוע פנוי</li>
+      <li>שליחת הערה לסדרן</li>
+      <li>קבלת התראות (SignalR כשמחובר / Web Push כשסגור)</li>
+    </ul>
+  </div>
+</div>

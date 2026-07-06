@@ -1,0 +1,7 @@
+.page { max-width: 720px; margin: 0 auto; padding: 1.5rem; font-family: system-ui, 'Segoe UI', sans-serif; color: #0f172a; }
+header { display: flex; justify-content: space-between; align-items: center; }
+h1 { font-size: 1.3rem; }
+button { border: 1px solid #cbd5e1; background: #fff; border-radius: 8px; padding: 0.4rem 0.8rem; cursor: pointer; }
+.skeleton-note { margin-top: 1rem; background: #fff7ed; border: 1px dashed #fdba74; border-radius: 10px; padding: 1rem 1.25rem; color: #7c2d12; }
+ul { margin: 0.5rem 0 0; }
+li { margin: 0.25rem 0; }

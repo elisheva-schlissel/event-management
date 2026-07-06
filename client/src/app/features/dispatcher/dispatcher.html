@@ -1,0 +1,41 @@
+<div class="page" dir="rtl">
+  <header>
+    <div>
+      <h1>לוח סדרן</h1>
+      <span class="who">שלום, {{ name() }}</span>
+    </div>
+    <div class="right">
+      <span class="conn" [class.on]="connected()">
+        {{ connected() ? '● real-time מחובר' : '○ מנותק' }}
+      </span>
+      <button class="logout" (click)="logout()">התנתק</button>
+    </div>
+  </header>
+
+  <p class="count">סה"כ אירועים: {{ items().length }}</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>כותרת</th>
+        <th>מיקום</th>
+        <th>עדיפות</th>
+        <th>סטטוס</th>
+        <th>נכנס</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (e of items(); track e.id) {
+        <tr [class.flash]="flashId() === e.id">
+          <td>{{ e.title }}</td>
+          <td>{{ e.location || '—' }}</td>
+          <td><span class="badge p-{{ e.priority }}">{{ e.priority }}</span></td>
+          <td>{{ e.status }}</td>
+          <td>{{ e.createdAt | date: 'HH:mm:ss' }}</td>
+        </tr>
+      } @empty {
+        <tr><td colspan="5" class="empty">אין אירועים עדיין — שלח אירוע דרך ה-Agent</td></tr>
+      }
+    </tbody>
+  </table>
+</div>
