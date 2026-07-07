@@ -114,11 +114,48 @@ erDiagram
     EventSources ||--o{ Events : reports
     Events ||--o{ EventStatusHistory : tracks
 
-    Users { guid Id PK; string Name; string Username; string PasswordHash; enum Role; bool IsConnected }
-    Events { guid Id PK; string Title; string Description; string Location; guid SourceId; string IdempotencyKey UK; enum Status; enum Priority; guid AssignedTechnicianId }
-    EventStatusHistory { guid Id PK; guid EventId FK; enum FromStatus; enum ToStatus; guid ChangedByUserId; datetime ChangedAt; string Note }
-    EventSources { guid Id PK; string Name; string ApiKey UK; string SecretHash; bool IsActive }
-    PushSubscriptions { guid Id PK; guid UserId FK; string Endpoint; string P256dh; string Auth }
+    Users {
+        guid Id PK
+        string Name
+        string Username
+        string PasswordHash
+        enum Role
+        bool IsConnected
+    }
+    Events {
+        guid Id PK
+        string Title
+        string Description
+        string Location
+        guid SourceId
+        string IdempotencyKey UK
+        enum Status
+        enum Priority
+        guid AssignedTechnicianId
+    }
+    EventStatusHistory {
+        guid Id PK
+        guid EventId FK
+        enum FromStatus
+        enum ToStatus
+        guid ChangedByUserId
+        datetime ChangedAt
+        string Note
+    }
+    EventSources {
+        guid Id PK
+        string Name
+        string ApiKey UK
+        string SecretHash
+        bool IsActive
+    }
+    PushSubscriptions {
+        guid Id PK
+        guid UserId FK
+        string Endpoint
+        string P256dh
+        string Auth
+    }
 ```
 
 בצד ה-Agent קיים מסד נפרד (SQLite) עם טבלת `Messages` (Outbox).
